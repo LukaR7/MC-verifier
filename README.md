@@ -1,2 +1,0 @@
-# MC-verifier
-MC-verifier
