@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - MedReport</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+  <nav>
+    <h2>MedReport Verifier</h2>
+    <ul>
+      <li><a href="{{ url_for('views.home') }}">Home</a></li>
+      <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+      <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+      <li><a href="{{ url_for('views.upload') }}">Upload</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="form-container">
+      <h1>Sign Up</h1>
+      <p>Create your account to access the system.</p>
+      
+      <form method="POST">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" name="username" placeholder="Choose a username" required>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Create a password" required>
+        </div>
+        
+        <button type="submit" class="btn">Sign Up</button>
+      </form>
+      
+      <p class="note">Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Medical Report Verifier Project. Designed by Team Members.</p>
+  </footer>
+</body>
+</html>
