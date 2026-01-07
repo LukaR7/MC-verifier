@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Medical Certificate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+<div class="nav">
+  <h2>MedReport Verifier</h2>
+  <ul class="nav-links">
+    <li><a href="{{ url_for('views.home') }}">Home</a></li>
+    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+    <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="box">
+    <h1>Upload Medical Certificate</h1>
+    <p>
+      Enter your student ID and upload your medical certificate file.
+    </p>
+
+    <form method="POST" enctype="multipart/form-data">
+      <label>Student ID</label>
+      <input type="text" name="student_id" required>
+
+      <label>File</label>
+      <input type="file" name="file" required>
+
+      <button type="submit" class="button">Submit</button>
+    </form>
+
+    <p class="text-small">
+      Accepted files: PDF, JPG, PNG. Maximum size is 5MB.
+    </p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Medical Report Verifier Project 2025</p>
+</div>
+
+</body>
+</html>
