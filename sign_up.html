@@ -2,43 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sign Up - MedReport</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
-  <nav>
-    <h2>MedReport Verifier</h2>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="signup.html">Sign Up</a></li>
-      <li><a href="upload.html">Upload</a></li>
-      <li><a href="lecturer_dashboard.html">Dashboard</a></li>
-    </ul>
-  </nav>
 
-  <main>
+<div class="nav">
+  <h2>MedReport Verifier</h2>
+  <ul class="nav-links">
+    <li><a href="{{ url_for('views.home') }}">Home</a></li>
+    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+    <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+    <li><a href="{{ url_for('views.upload') }}">Upload</a></li>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="box">
     <h1>Sign Up</h1>
-    <p>Create your account to access the system.</p>
-    <form>
+    <p>Create a new account below.</p>
+
+    <form method="POST">
       <label>Full Name</label>
-      <input type="text" placeholder="Enter your full name">
+      <input type="text" name="name" required>
 
       <label>Email</label>
-      <input type="email" placeholder="Enter your email">
+      <input type="email" name="email" required>
 
       <label>Username</label>
-      <input type="text" placeholder="Choose a username">
+      <input type="text" name="username" required>
 
       <label>Password</label>
-      <input type="password" placeholder="Create a password">
+      <input type="password" name="password" required>
 
-      <label>Confirm Password</label>
-      <input type="password" placeholder="Confirm your password">
-
-      <button type="submit" class="btn">Sign Up</button>
+      <button type="submit" class="button">Sign Up</button>
     </form>
-    <p class="note">Already have an account? <a href="login.html">Login here</a>.</p>
-  </main>
+
+    <p class="text-small">
+      Already have an account?
+      <a href="{{ url_for('auth.login') }}">Login here</a>
+    </p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Medical Report Verifier Project 2025</p>
+</div>
+
 </body>
 </html>
