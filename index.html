@@ -3,39 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Medical Report Verifier</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
-  <nav>
-    <h2>MedReport Verifier</h2>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="sign_up.html">Sign Up</a></li>
-      <li><a href="upload.html">Upload</a></li>
-      <li><a href="lecturer_dashboard.html">Dashboard</a></li>
-    </ul>
-  </nav>
 
-  <header>
-    <h1>Welcome to Medical Report Verifier</h1>
-    <p>This platform helps students upload medical certificates and allows lecturers to verify them quickly and securely.</p>
-    <a href="sign_up.html" class="btn">Get Started</a>
-  </header>
+<div class="nav">
+  <h2>MedReport Verifier</h2>
+  <ul class="nav-links">
+    <li><a href="{{ url_for('views.home') }}">Home</a></li>
+    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+    <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+    <li><a href="{{ url_for('views.upload') }}">Upload</a></li>
+  </ul>
+</div>
 
-  <section>
-    <h2>Why Use This System?</h2>
-    <p>Managing medical certificates can be time-consuming. Our system ensures:</p>
-    <ul>
-      <li> Easy submission for students</li>
-      <li> Fast verification for lecturers</li>
-      <li> Secure storage of records</li>
-      <li> Clear communication of results</li>
-    </ul>
-  </section>
+<div class="container center">
+  <h1>Medical Report Verification System</h1>
+  <p>
+    This system helps students submit medical certificates
+    and allows staff to review them properly.
+  </p>
+  <a href="{{ url_for('auth.signup') }}" class="button">Get Started</a>
+</div>
 
-  <footer>
-    <p>&copy; 2025 Medical Report Verifier Project. Designed by Team Members.</p>
-  </footer>
+<div class="footer">
+  <p>Medical Report Verifier Project 2025</p>
+</div>
+
 </body>
 </html>
