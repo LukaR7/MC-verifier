@@ -5,7 +5,7 @@ import os
 import pytesseract
 from PIL import Image
 import re
-from .models import MedicalRecord 
+from .models import MedicalRecord
 from . import db                  
 views = Blueprint('views', __name__)
 
