@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Medical Report Verifier</title>
+  <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -17,15 +17,21 @@
   </ul>
 </div>
 
-<div class="container center">
-  <h1>Medical Report Verification System</h1>
-  <p>
-    This system helps students submit medical certificates
-    and allows staff to review them properly.
-  </p>
-  <a href="{{ url_for('auth.signup') }}" class="button">Get Started</a>
-  <a href="{{ url_for('auth.signup_lec') }}" class="button secondary">Lecturer Sign Up</a>
+<div class="container">
+  <div class="box">
+    <h1>Login</h1>
+    <p>Please enter your details to log in.</p>
 
+    <form method="POST">
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <button type="submit" class="button">Login</button>
+    </form>
+  </div>
 </div>
 
 <div class="footer">

@@ -62,6 +62,10 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.wide {
+  max-width: 100%;
+}
+
 /* Forms */
 form {
   display: flex;
@@ -95,16 +99,55 @@ input:focus {
   border-radius: 4px;
   cursor: pointer;
   font-size: 15px;
+  text-decoration: none;
+  text-align: center;
 }
 
 .button:hover {
   background-color: #2980b9;
 }
 
+.button.small {
+  padding: 6px 12px;
+  font-size: 14px;
+  margin-top: 0;
+}
+
 /* Text */
 .text-small {
   margin-top: 15px;
   font-size: 14px;
+}
+
+/* Table (Lecturer Dashboard) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th {
+  background-color: #ecf0f1;
+  padding: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f7f7f7;
+}
+
+/* Status dropdown */
+.status-select {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #fff;
 }
 
 /* Footer */

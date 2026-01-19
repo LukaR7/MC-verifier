@@ -2,6 +2,7 @@ from . import db
 from flask_login import UserMixin
 from datetime import datetime
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -9,10 +10,13 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     records = db.relationship('MedicalRecord', backref='owner')
+    is_lecturer = db.Column(db.Boolean, default=False)
 
 class MedicalRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_name = db.Column(db.String(150)) 
     issue_date = db.Column(db.String(100))    
-    raw_text = db.Column(db.Text)            
+    raw_text = db.Column(db.Text) 
+    serial_number = db.Column(db.String(100))
+    subject_name = db.Column(db.String(150))           
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

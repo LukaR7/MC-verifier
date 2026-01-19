@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="nav">
+  <h2>MedReport Verifier</h2>
+  <ul class="nav-links">
+    <li><a href="{{ url_for('views.home') }}">Home</a></li>
+    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+    <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+    <li><a href="{{ url_for('views.upload') }}">Upload</a></li>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="box">
+    <h1>Sign Up</h1>
+    <p>Create a new account below.</p>
+
+    <form method="POST">
+      <label>Full Name</label>
+      <input type="text" name="name" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Username</label>
+      <input type="text" name="username" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <button type="submit" class="button">Sign Up</button>
+    </form>
+
+    <p class="text-small">
+      Already have an account?
+      <a href="{{ url_for('auth.login_lec') }}">Login here</a>
+    </p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Medical Report Verifier Project 2025</p>
+</div>
+
+</body>
+</html>
