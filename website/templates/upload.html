@@ -12,44 +12,44 @@
   <h2>MedReport Verifier</h2>
   <ul class="nav-links">
     <li><a href="{{ url_for('views.home') }}">Home</a></li>
-    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
-    <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+    <li><a href="{{ url_for('views.student_dashboard') }}">My Dashboard</a></li>
+    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
   </ul>
 </div>
 
 <div class="container">
+  <!-- ✅ FIXED FLASH MESSAGES -->
+  {% for message in get_flashed_messages() %}
+    <div class="alert-success">
+      {{ message }}
+    </div>
+  {% endfor %}
+
   <div class="box">
     <h1>Upload Medical Certificate</h1>
-    <p>
-      Enter your student ID and upload your medical certificate file.
-    </p>
+    <p>Fill in the details and enter your lecturer's 4-digit code.</p>
 
     <form method="POST" enctype="multipart/form-data">
-      <label>Student ID</label>
-      <input type="text" name="student_id" required>
-
       <label>Student Name</label>
-      <input type="text" name="student_name" required>
+      <input type="text" name="student_name" value="{{ user.name }}" required>
 
       <label>Subject</label>
-      <input type="text" name="subject" required >
+      <input type="text" name="subject" placeholder="e.g. Mathematics" required>
 
       <label>Issue Date</label>
       <input type="date" name="issue_date" required>
 
       <label>MC Serial Number</label>
-      <input type="text" name="serial_number">
-     
+      <input type="text" name="serial_number" placeholder="Optional">
 
-      <label>File</label>
-      <input type="file" name="file" required>
+      <label>Upload MC File</label>
+      <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" required>
 
-      <button type="submit" class="button">Submit</button>
+      <label for="teacher_id">Enter Lecturer's 4-Digit Code</label>
+      <input type="text" name="teacher_id" placeholder="e.g. 1234" maxlength="4" pattern="\d{4}" required>
+
+      <button type="submit" class="button">Submit MC</button>
     </form>
-
-    <p class="text-small">
-      Accepted files: PDF, JPG, PNG. Maximum size is 5MB.
-    </p>
   </div>
 </div>
 

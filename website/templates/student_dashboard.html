@@ -11,46 +11,54 @@
 <div class="nav">
   <h2>MedReport Verifier</h2>
   <ul class="nav-links">
-    <li><a href="{{ url_for('views.home') }}">Home</a></li>
     <li><a href="{{ url_for('views.upload') }}">Upload MC</a></li>
     <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
   </ul>
 </div>
 
 <div class="container">
-  <h1>Welcome, {{ user.name }}</h1>
-  <p>This page shows the medical certificates you have submitted.</p>
+  <h1>Welcome, {{ current_user.name }}</h1>
+  
+  <div style="margin-bottom: 20px;">
+      <a href="{{ url_for('views.upload') }}" class="button" style="background-color: #2ecc71; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block;">+ Submit New MC</a>
+  </div>
 
   <div class="box wide">
     <table>
       <thead>
         <tr>
-          <th>Extracted Name</th>
-          <th>MC Date</th>
+          <th>Subject</th>
+          <th>Date</th>
           <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        {% for record in records %}
-        <tr>
-          <td>{{ record.student_name }}</td>
-          <td>{{ record.issue_date }}</td>
-          <td>
-            <span class="status-badge">Submitted</span>
-          </td>
-        </tr>
+        {% if records %}
+            {% for record in records %}
+            <tr>
+              <td>{{ record.subject_name }}</td>
+              <td>{{ record.issue_date }}</td>
+              <td>
+                {% if record.status == 'Valid' %}
+                    <b style="color: green;">Valid</b>
+                {% elif record.status == 'Rejected' %}
+                    <b style="color: red;">Rejected</b>
+                {% elif record.status == 'Flagged' %}
+                    <b style="color: orange;">Flagged</b>
+                {% else %}
+                    <b style="color: #0d47a1;">Pending</b>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
         {% else %}
-        <tr>
-          <td colspan="3" style="text-align: center;">No certificates uploaded yet.</td>
-        </tr>
-        {% endfor %}
+            <tr>
+              <td colspan="3" style="text-align: center; padding: 20px;">No certificates uploaded yet.</td>
+            </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>
-</div>
-
-<div class="footer">
-  <p>Medical Report Verifier Project 2026</p>
 </div>
 
 </body>

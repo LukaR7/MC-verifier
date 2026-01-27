@@ -1,90 +1,63 @@
-from flask import Blueprint, current_app, flash, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 import os
-import pytesseract
-from PIL import Image
-import re
-from .models import MedicalRecord
-from . import db                  
+from .models import MedicalRecord, User 
+from . import db
 views = Blueprint('views', __name__)
-
-def extract_info(text):
-    date_pattern = r'(\d{1,2}[/-]\d{1,2}[/-]\d{4})'
-    date_found = re.search(date_pattern, text)
-    
-    name_pattern = r'(?:Name|Patient|Student):\s*([A-Za-z\s]+)'
-    name_found = re.search(name_pattern, text, re.IGNORECASE)
-
-    return {
-        "date": date_found.group(1) if date_found else "Unknown",
-        "name": name_found.group(1).strip() if name_found else "Unknown"
-    }
-
-
 
 @views.route('/')
 def home():
-    if current_user.is_authenticated and current_user.is_lecturer:
+    if not current_user.is_authenticated:
+        return render_template("index.html", user=current_user)
+    if current_user.is_lecturer:
         return redirect(url_for('views.lecturer_dashboard'))
-    return render_template("index.html", user=current_user)
-
-@views.route('/upload', methods=['GET', 'POST'])
-@login_required 
-def upload():
-    if request.method == 'POST':
-        form_serial = request.form.get('serial_number')
-        form_subject = request.form.get('subject')  #
-        manual_name = request.form.get('student_name')
-        manual_date = request.form.get('issue_date')
-        
-        f = request.files.get('file')
-        if not f or f.filename == '':
-            flash("No file selected!")
-            return redirect(request.url)
-
-        folder = os.path.join('website', 'static', 'uploads')
-        if not os.path.exists(folder):
-            os.makedirs(folder)
-        
-        file_path = os.path.join(folder, secure_filename(f.filename))
-        f.save(file_path)
-
-        try:
-            text_data = pytesseract.image_to_string(Image.open(file_path))
-            
-        except:
-            text_data = "Could not read image"
-
-        
-        new_entry = MedicalRecord(
-            student_name=manual_name,    
-            issue_date=manual_date,     
-            serial_number=form_serial,  
-            subject_name=form_subject,  
-            raw_text=text_data,
-            user_id=current_user.id
-        )
-        db.session.add(new_entry)
-        db.session.commit()
-
-        flash(f"Success! Record for {form_subject} uploaded.")
-        return redirect(url_for('views.student_dashboard'))
-
-    return render_template("upload.html", user=current_user)
-
-@views.route('/lecturer-dashboard')
-@login_required
-def lecturer_dashboard():
-   
-
-    all_records = MedicalRecord.query.all() 
-    return render_template("lecture_dashboard.html", user=current_user, records=all_records)
+    return redirect(url_for('views.student_dashboard'))
 
 @views.route('/student-dashboard')
 @login_required
 def student_dashboard():
-    user_records = MedicalRecord.query.filter_by(user_id=current_user.id).all()
-    return render_template("student_dashboard.html", user=current_user, records=user_records)
+    recs = MedicalRecord.query.filter_by(user_id=current_user.id).all()
+    return render_template("student_dashboard.html", user=current_user, records=recs)
 
+@views.route('/lecturer-dashboard')
+@login_required
+def lecturer_dashboard():
+    recs = MedicalRecord.query.filter_by(assigned_teacher_id=current_user.id).all()
+    return render_template("lecture_dashboard.html", user=current_user, records=recs)
 
+@views.route('/update-status/<int:record_id>', methods=['POST'])
+@login_required
+def update_status(record_id):
+    record = MedicalRecord.query.get(record_id)
+    if record and record.assigned_teacher_id == current_user.id:
+        record.status = request.form.get('status')
+        db.session.commit()
+    return redirect(url_for('views.lecturer_dashboard'))
+
+@views.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload():
+    if request.method == 'POST':
+        teacher_code = request.form.get('teacher_id')
+        target_lec = User.query.filter_by(lecturer_code=teacher_code, is_lecturer=True).first()
+        if target_lec:
+            f = request.files.get('file')
+            filename = secure_filename(f.filename)
+            path = os.path.join(os.path.dirname(__file__), 'static/uploads')
+            if not os.path.exists(path): os.makedirs(path)
+            f.save(os.path.join(path, filename))
+            new_rec = MedicalRecord(
+                student_name=request.form.get('student_name'),
+                issue_date=request.form.get('issue_date'),
+                serial_number=request.form.get('serial_number'),
+                subject_name=request.form.get('subject'),
+                file_name=filename,
+                user_id=current_user.id,
+                assigned_teacher_id=target_lec.id,
+                status="Pending"
+            )
+            db.session.add(new_rec)
+            db.session.commit()
+            return redirect(url_for('views.student_dashboard'))
+    return render_template("upload.html", user=current_user)
