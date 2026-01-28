@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Medical Certificate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="nav">
+  <h2>MedReport Verifier</h2>
+  <ul class="nav-links">
+    <li><a href="{{ url_for('views.home') }}">Home</a></li>
+    <li><a href="{{ url_for('views.student_dashboard') }}">My Dashboard</a></li>
+    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="box">
+    <h1>Upload Medical Certificate</h1>
+    <p>Fill in the details and enter your lecturer's 4-digit code.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'error' %}
+            <div style="text-align: center; margin-bottom: 15px; padding: 10px; border-radius: 4px; color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb;">
+              {{ message }}
+            </div>
+          {% else %}
+            <div style="text-align: center; margin-bottom: 15px; padding: 10px; border-radius: 4px; color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb;">
+              {{ message }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data">
+      <label>Student Name</label>
+      <input type="text" name="student_name" value="{{ user.name }}" required>
+
+      <label>Subject</label>
+      <input type="text" name="subject" placeholder="e.g. Mathematics" required>
+
+      <label>Issue Date</label>
+      <input type="date" name="issue_date" required>
+
+      <label>MC Serial Number</label>
+      <input type="text" name="serial_number" placeholder="Optional">
+
+      <label>Upload MC File</label>
+      <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" required>
+
+      <label for="teacher_id">Enter Lecturer's 4-Digit Code</label>
+      <input type="text" name="teacher_id" placeholder="e.g. 1234" maxlength="4" pattern="\d{4}" required>
+
+      <button type="submit" class="button">Submit MC</button>
+    </form>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Medical Report Verifier Project 2025</p>
+</div>
+
+</body>
+</html>

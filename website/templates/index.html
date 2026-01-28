@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medical Report Verifier</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="nav">
+  <h2>MedReport Verifier</h2>
+  <ul class="nav-links">
+  </ul>
+</div>
+
+<div class="container center">
+  <h1>Medical Report Verification System</h1>
+  <p>
+    This system helps students submit medical certificates
+    and allows staff to review them properly.
+  </p>
+  <a href="{{ url_for('auth.signup') }}" class="button">Get Started</a>
+  <a href="{{ url_for('auth.signup_lec') }}" class="button secondary">Lecturer Sign Up</a>
+
+</div>
+
+<div class="footer">
+  <p>Medical Report Verifier Project 2025</p>
+</div>
+
+</body>
+</html>

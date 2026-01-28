@@ -1,0 +1,184 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(to bottom, #eef2f3, #d9e4ec);
+  color: #333;
+}
+
+/* Navigation */
+.nav {
+  background-color: #34495e;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav h2 {
+  margin: 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-links a:hover {
+  color: #f1c40f;
+}
+
+/* Layout */
+.container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+.center {
+  text-align: center;
+}
+
+/* Box */
+.box {
+  background-color: white;
+  padding: 30px;
+  max-width: 420px;
+  margin: auto;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.wide {
+  max-width: 100%;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Buttons */
+.button {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #2980b9;
+}
+
+.button.small {
+  padding: 6px 12px;
+  font-size: 14px;
+  margin-top: 0;
+}
+
+/* Text */
+.text-small {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* Table (Lecturer Dashboard) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th {
+  background-color: #ecf0f1;
+  padding: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f7f7f7;
+}
+
+/* Status dropdown */
+.status-select {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #555;
+}
+.button.view {
+    background-color: #27ae60; 
+}
+
+.button.view:hover {
+    background-color: #2ecc71;
+}
+
+.button.info {
+    background-color: #7f8c8d; 
+}
+
+.button.info:hover {
+    background-color: #95a5a6;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    background-color: #f1c40f;
+    color: #333;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}

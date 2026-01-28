@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lecturer Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="nav">
+        <h2>MedReport Verifier</h2>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h1 class="center">Lecturer Dashboard</h1>
+        <div class="box center" style="border: 2px dashed #2980b9; background: #f9f9f9;">
+            <p>Your Student Code: <strong style="font-size: 1.5rem; color: #2980b9;">{{ user.lecturer_code }}</strong></p>
+        </div>
+
+        <div class="box wide">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Subject</th>
+                        <th>MC Date</th>
+                        <th>File</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.student_name }}</td>
+                        <td>{{ record.subject_name }}</td>
+                        <td>{{ record.issue_date }}</td>
+                        <td><a href="{{ url_for('static', filename='uploads/' + record.file_name) }}" target="_blank">View MC</a></td>
+                        <td>
+                            <form action="{{ url_for('views.update_status', record_id=record.id) }}" method="POST">
+                                <select name="status" onchange="this.form.submit()" style="padding: 5px; border-radius: 5px;">
+                                    <option value="Pending" {% if record.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Valid" {% if record.status == 'Valid' %}selected{% endif %}>Valid</option>
+                                    <option value="Flagged" {% if record.status == 'Flagged' %}selected{% endif %}>Flagged</option>
+                                    <option value="Rejected" {% if record.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="5" class="center">No submissions received.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
