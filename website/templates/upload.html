@@ -18,16 +18,25 @@
 </div>
 
 <div class="container">
-  <!-- ✅ FIXED FLASH MESSAGES -->
-  {% for message in get_flashed_messages() %}
-    <div class="alert-success">
-      {{ message }}
-    </div>
-  {% endfor %}
-
   <div class="box">
     <h1>Upload Medical Certificate</h1>
     <p>Fill in the details and enter your lecturer's 4-digit code.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'error' %}
+            <div style="text-align: center; margin-bottom: 15px; padding: 10px; border-radius: 4px; color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb;">
+              {{ message }}
+            </div>
+          {% else %}
+            <div style="text-align: center; margin-bottom: 15px; padding: 10px; border-radius: 4px; color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb;">
+              {{ message }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
     <form method="POST" enctype="multipart/form-data">
       <label>Student Name</label>

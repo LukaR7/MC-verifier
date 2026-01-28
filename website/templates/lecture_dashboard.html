@@ -1,69 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Lecturer Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Lecturer Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div class="nav">
+        <h2>MedReport Verifier</h2>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+    </div>
 
-<div class="nav">
-  <h2>MedReport Verifier</h2>
-  <ul class="nav-links">
-    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-  </ul>
-</div>
+    <div class="container">
+        <h1 class="center">Lecturer Dashboard</h1>
+        <div class="box center" style="border: 2px dashed #2980b9; background: #f9f9f9;">
+            <p>Your Student Code: <strong style="font-size: 1.5rem; color: #2980b9;">{{ user.lecturer_code }}</strong></p>
+        </div>
 
-<div class="container">
-  <h1 class="center">Lecturer Dashboard</h1>
-  
-  <div class="box center" style="background-color: #f9f9f9; border: 2px dashed #2980b9; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
-      <p style="margin: 0; font-weight: bold; color: #555;">Share this code with your students:</p>
-      <h2 style="margin: 10px 0; color: #2980b9; font-size: 3rem;">{{ current_user.lecturer_code }}</h2>
-      <p style="font-size: 0.85rem; color: #888;">Students must enter this code when uploading their MC.</p>
-  </div>
-
-  <div class="box wide">
-    <table>
-      <thead>
-        <tr>
-          <th>Student Name</th>
-          <th>Subject</th>
-          <th>File</th>
-          <th>Status Management</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if records %}
-          {% for record in records %}
-          <tr>
-            <td>{{ record.student_name }}</td>
-            <td>{{ record.subject_name }}</td>
-            <td>
-                <a href="{{ url_for('static', filename='uploads/' + record.file_name) }}" target="_blank" class="button small">View MC</a>
-            </td>
-            <td>
-              <form action="{{ url_for('views.update_status', record_id=record.id) }}" method="POST">
-                <select name="status" onchange="this.form.submit()" style="padding: 5px; border-radius: 4px;">
-                  <option value="Pending" {% if record.status == 'Pending' %}selected{% endif %}>Pending</option>
-                  <option value="Valid" {% if record.status == 'Valid' %}selected{% endif %}>Valid</option>
-                  <option value="Flagged" {% if record.status == 'Flagged' %}selected{% endif %}>Flagged</option>
-                  <option value="Rejected" {% if record.status == 'Rejected' %}selected{% endif %}>Rejected</option>
-                </select>
-              </form>
-            </td>
-          </tr>
-          {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="4" class="center">No submissions received for your code yet.</td>
-          </tr>
-        {% endif %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
+        <div class="box wide">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Subject</th>
+                        <th>MC Date</th>
+                        <th>File</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.student_name }}</td>
+                        <td>{{ record.subject_name }}</td>
+                        <td>{{ record.issue_date }}</td>
+                        <td><a href="{{ url_for('static', filename='uploads/' + record.file_name) }}" target="_blank">View MC</a></td>
+                        <td>
+                            <form action="{{ url_for('views.update_status', record_id=record.id) }}" method="POST">
+                                <select name="status" onchange="this.form.submit()" style="padding: 5px; border-radius: 5px;">
+                                    <option value="Pending" {% if record.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Valid" {% if record.status == 'Valid' %}selected{% endif %}>Valid</option>
+                                    <option value="Flagged" {% if record.status == 'Flagged' %}selected{% endif %}>Flagged</option>
+                                    <option value="Rejected" {% if record.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="5" class="center">No submissions received.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
