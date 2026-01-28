@@ -11,7 +11,7 @@ def create_app():
     
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     db_path = os.path.join(BASE_DIR, 'db.sqlite3')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////opt/render/project/src/db.sqlite3'
     app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'static', 'uploads')
 
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
