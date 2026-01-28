@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿blinker==1.9.0
 click==8.3.1
 colorama==0.4.6
@@ -15,3 +16,12 @@ SQLAlchemy==2.0.45
 typing_extensions==4.15.0
 Werkzeug==3.1.4
 gunicorn
+=======
+Flask
+Flask-Login
+Flask-SQLAlchemy
+Werkzeug
+gunicorn
+pytesseract
+Pillow
+>>>>>>> ff3d200289d9a154c6d62606283c15808fd7b29d
