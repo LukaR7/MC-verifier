@@ -11,7 +11,7 @@
 <div class="nav">
   <h2>MedReport Verifier</h2>
   <ul class="nav-links">
-    <li><a href="{{ url_for('views.home') }}">Home</a></li>
+    <li><a href="{{ url_for('views.index') }}">Home</a></li>
     <li><a href="{{ url_for('auth.login') }}">Login</a></li>
     <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
   </ul>
@@ -19,7 +19,7 @@
 
 <div class="container">
   <div class="box">
-    <h1>Login</h1>
+    <h1>Lecturer Login</h1>
     <p>Please enter your details to log in as Lecturer.</p>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -50,7 +50,7 @@
 </div>
 
 <div class="footer">
-  <p>Medical Report Verifier Project 2025</p>
+  <p>Medical Report Verifier Project 2026</p>
 </div>
 
 </body>

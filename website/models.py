@@ -7,7 +7,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(150))
     password = db.Column(db.String(150))
     is_lecturer = db.Column(db.Boolean, default=False)
-    lecturer_code = db.Column(db.String(4), unique=True) 
+    lecturer_code = db.Column(db.String(4)) 
 
 class MedicalRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,5 +17,7 @@ class MedicalRecord(db.Model):
     subject_name = db.Column(db.String(150))
     file_name = db.Column(db.String(150))
     status = db.Column(db.String(20), default="Pending") 
+    ocr_report = db.Column(db.String(200)) 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     assigned_teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comment = db.Column(db.String(500), default="")

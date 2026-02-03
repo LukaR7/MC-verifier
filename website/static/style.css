@@ -182,3 +182,26 @@ tr:hover {
     font-weight: bold;
     text-transform: uppercase;
 }
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* Color Logic */
+.status-flagged {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-approved {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}

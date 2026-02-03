@@ -16,7 +16,7 @@ def login():
         
         if user:
             if user.is_lecturer:
-                flash('This email is registered as a Lecturer. Please use the Lecturer login.', category='error')
+                flash('This is a Lecturer account. Use Lecturer login.', category='error')
             elif check_password_hash(user.password, password):
                 login_user(user, remember=True)
                 return redirect(url_for('views.student_dashboard'))
@@ -35,7 +35,7 @@ def login_lec():
         
         if user:
             if not user.is_lecturer:
-                flash('This email is registered as a Student. Please use the Student login.', category='error')
+                flash('This is a Student account. Use Student login.', category='error')
             elif check_password_hash(user.password, password):
                 login_user(user, remember=True)
                 return redirect(url_for('views.lecturer_dashboard'))
@@ -49,9 +49,8 @@ def login_lec():
 def signup():
     if request.method == 'POST':
         email = request.form.get('email')
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('You already have an account. Please login.', category='error')
+        if User.query.filter_by(email=email).first():
+            flash('Email already exists.', category='error')
             return redirect(url_for('auth.login'))
         
         new_user = User(
@@ -69,28 +68,30 @@ def signup():
 def signup_lec():
     if request.method == 'POST':
         email = request.form.get('email')
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('You already have an account. Please login.', category='error')
+        if User.query.filter_by(email=email).first():
+            flash('Email already exists.', category='error')
             return redirect(url_for('auth.login_lec'))
 
-        random_code = str(random.randint(1000, 9999))
-        while User.query.filter_by(lecturer_code=random_code).first():
-            random_code = str(random.randint(1000, 9999))
-
+        code = str(random.randint(1000, 9999))
         new_user = User(
             email=email, name=request.form.get('name'), 
             password=generate_password_hash(request.form.get('password'), method='pbkdf2:sha256'),
-            is_lecturer=True, lecturer_code=random_code
+            is_lecturer=True, lecturer_code=code
         )
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user, remember=True)
         return redirect(url_for('views.lecturer_dashboard'))
     return render_template("sign_uplec.html", user=current_user)
-
+    
+    
 @auth.route('/logout')
 @login_required
 def logout():
+    is_lec = current_user.is_lecturer
     logout_user()
+    flash('Logged out successfully.', category='info')
+    
+    if is_lec:
+        return redirect(url_for('auth.login_lec'))
     return redirect(url_for('auth.login'))

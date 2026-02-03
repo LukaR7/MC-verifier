@@ -2,76 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Dashboard</title>
+    <title>Student Dashboard | MedReport</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="nav">
-        <h2>MedReport Verifier</h2>
-        <ul class="nav-links">
-            <li><a href="{{ url_for('views.upload') }}">Upload MC</a></li>
-            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+<body class="bg-light">
+    <div class="nav bg-dark p-3 d-flex justify-content-between align-items-center">
+        <h2 class="text-white m-0">MedReport Verifier</h2>
+        <ul class="nav-links list-unstyled d-flex m-0 gap-3">
+            <li><a href="{{ url_for('views.index') }}" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger btn-sm">Logout</a></li>
         </ul>
     </div>
 
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      
-      {% if category == 'success' %}
-        <div style="padding: 15px; margin-bottom: 20px; border-radius: 8px; text-align: center; font-weight: bold; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;">
-          {{ message }}
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>My Submissions</h1>
+            <a href="{{ url_for('views.upload') }}" class="btn btn-primary px-4 shadow-sm">Upload New MC</a>
         </div>
-      {% else %}
-        <div style="padding: 15px; margin-bottom: 20px; border-radius: 8px; text-align: center; font-weight: bold; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
-          {{ message }}
-        </div>
-      {% endif %}
 
-    {% endfor %}
-  {% endif %}
-{% endwith %}
-
-        <h1>Welcome, {{ current_user.name }}</h1>
-        
-        <div class="box wide">
-            <table>
-                <thead>
+        <div class="card p-4 shadow-sm border-0">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
                     <tr>
                         <th>Subject</th>
-                        <th>MC Date</th>
+                        <th>Date on MC</th>
                         <th>Status</th>
+                        <th>Lecturer Feedback</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% if records %}
-                        {% for record in records %}
-                        <tr>
-                            <td>{{ record.subject_name }}</td>
-                            <td>{{ record.issue_date }}</td>
-                            <td>
-                                {% if record.status == 'Valid' %}
-                                    <span style="background: #2ecc71; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Valid</span>
-                                {% elif record.status == 'Rejected' %}
-                                    <span style="background: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Rejected</span>
-                                {% elif record.status == 'Flagged' %}
-                                    <span style="background: #f39c12; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Flagged</span>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.subject_name }}</td>
+                        <td>{{ record.issue_date }}</td>
+                        <td>
+                            {% if record.status == 'Approved' %}
+                                <span class="badge bg-success">Approved</span>
+                            {% elif record.status == 'Rejected' %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% elif record.status == 'Flagged' %}
+                                <span class="badge bg-warning text-dark">Under Review</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <small class="text-muted">
+                                {% if record.comment and "SYSTEM_FLAG" not in record.comment and "OCR" not in record.comment %}
+                                    {{ record.comment }}
                                 {% else %}
-                                    <span style="background: #3498db; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Pending</span>
+                                    Awaiting lecturer manual review.
                                 {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
+                            </small>
+                        </td>
+                    </tr>
                     {% else %}
-                        <tr>
-                            <td colspan="3" style="text-align: center; padding: 40px; color: #888;">
-                                No submissions yet. <br>
-                                <a href="{{ url_for('views.upload') }}" style="color: #2980b9; font-weight: bold;">Upload your first MC here</a>
-                            </td>
-                        </tr>
-                    {% endif %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5">No medical certificates found.</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
