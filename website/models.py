@@ -13,7 +13,6 @@ class MedicalRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_name = db.Column(db.String(150))
     issue_date = db.Column(db.String(150))
-    serial_number = db.Column(db.String(150))
     subject_name = db.Column(db.String(150))
     file_name = db.Column(db.String(150))
     status = db.Column(db.String(20), default="Pending") 
