@@ -102,4 +102,4 @@ def lecturer_dashboard():
 @login_required
 def student_dashboard():
     records = MedicalRecord.query.filter_by(user_id=current_user.id).all()
-    return render_template("student_dashboard.html", user=current_user, records=records)
+    return render_template("student_dashboard.html", user=current_user, records=records) 
