@@ -14,7 +14,6 @@
     <li><a href="{{ url_for('views.index') }}">Home</a></li>
     <li><a href="{{ url_for('auth.login') }}">Login</a></li>
     <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
-    <li><a href="{{ url_for('views.upload') }}">Upload</a></li>
   </ul>
 </div>
 
@@ -23,24 +22,27 @@
     <h1>Sign Up</h1>
     <p>Create a new account below.</p>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div style="color: #ff4d4d; background: #ffe6e6; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #ffcccc;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
     <form method="POST">
       <label>Full Name</label>
-      <input type="text" name="name" required>
+      <input type="text" name="name" required placeholder="Enter your full name">
 
       <label>Email</label>
-      <input type="email" name="email" id="email" required>
-
+      <input type="email" name="email" required placeholder="example@mail.com">
 
       <label>Password</label>
-      <input type="password" name="password" id="password" required>
+      <input type="password" name="password" required placeholder="Create a strong password">
 
-      <p id="password-warning" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 5px; display: none;">
-        Enter a valid email and a password with at least 7 characters, uppercase, lowercase, and a number.
-      </p>
-
-      <button type="submit" class="button" id="signup-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
-        Sign Up
-      </button>
+      <button type="submit" class="button">Sign Up</button>
     </form>
 
     <p class="text-small">
@@ -53,37 +55,6 @@
 <div class="footer">
   <p>Medical Report Verifier Project 2025</p>
 </div>
-
-<script>
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const warningText = document.getElementById("password-warning");
-  const signupBtn = document.getElementById("signup-btn");
-
-  function validate() {
-    const emailValue = emailInput.value;
-    const passValue = passwordInput.value;
-    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
-    const isPassValid = /[A-Z]/.test(passValue) && /[a-z]/.test(passValue) && /[0-9]/.test(passValue) && passValue.length >= 7;
-
-    if ((emailValue.length > 0 || passValue.length > 0) && (!isEmailValid || !isPassValid)) {
-      warningText.style.display = "block";
-      signupBtn.disabled = true;
-      signupBtn.style.opacity = "0.5";
-    } else if (isEmailValid && isPassValid) {
-      warningText.style.display = "none";
-      signupBtn.disabled = false;
-      signupBtn.style.opacity = "1";
-      signupBtn.style.cursor = "pointer";
-    } else {
-      warningText.style.display = "none";
-      signupBtn.disabled = true;
-    }
-  }
-
-  emailInput.addEventListener("input", validate);
-  passwordInput.addEventListener("input", validate);
-</script>
 
 </body>
 </html>

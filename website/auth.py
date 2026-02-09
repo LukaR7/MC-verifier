@@ -49,42 +49,64 @@ def login_lec():
 def signup():
     if request.method == 'POST':
         email = request.form.get('email')
-        if User.query.filter_by(email=email).first():
+        name = request.form.get('name')
+        password = request.form.get('password')
+
+    
+        if len(email) < 4 or '@' not in email:
+            flash('Please enter a valid email address.', category='error')
+        elif len(password) < 7:
+            flash('Password must be at least 7 characters.', category='error')
+        elif not any(char.isupper() for char in password):
+            flash('Password must contain at least one uppercase letter.', category='error')
+        elif not any(char.islower() for char in password):
+            flash('Password must contain at least one lowercase letter.', category='error')
+        elif not any(char.isdigit() for char in password):
+            flash('Password must contain at least one number.', category='error')
+        elif User.query.filter_by(email=email).first():
             flash('Email already exists.', category='error')
-            return redirect(url_for('auth.login'))
-        
-        new_user = User(
-            email=email, name=request.form.get('name'), 
-            password=generate_password_hash(request.form.get('password'), method='pbkdf2:sha256'), 
-            is_lecturer=False
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        login_user(new_user, remember=True)
-        return redirect(url_for('views.student_dashboard'))
+        else:
+            new_user = User(
+                email=email, name=name, 
+                password=generate_password_hash(password, method='pbkdf2:sha256'), 
+                is_lecturer=False
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user, remember=True)
+            flash('Account created successfully!', category='success')
+            return redirect(url_for('views.student_dashboard'))
+            
     return render_template("sign_up.html", user=current_user)
 
 @auth.route('/signup-lec', methods=['GET', 'POST'])
 def signup_lec():
     if request.method == 'POST':
         email = request.form.get('email')
-        if User.query.filter_by(email=email).first():
-            flash('Email already exists.', category='error')
-            return redirect(url_for('auth.login_lec'))
+        name = request.form.get('name')
+        password = request.form.get('password')
 
-        code = str(random.randint(1000, 9999))
-        new_user = User(
-            email=email, name=request.form.get('name'), 
-            password=generate_password_hash(request.form.get('password'), method='pbkdf2:sha256'),
-            is_lecturer=True, lecturer_code=code
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        login_user(new_user, remember=True)
-        return redirect(url_for('views.lecturer_dashboard'))
+        if len(email) < 4 or '@' not in email:
+            flash('Please enter a valid email address.', category='error')
+        elif len(password) < 7:
+            flash('Password must be at least 7 characters.', category='error')
+        elif User.query.filter_by(email=email).first():
+            flash('Email already exists.', category='error')
+        else:
+            code = str(random.randint(1000, 9999))
+            new_user = User(
+                email=email, name=name, 
+                password=generate_password_hash(password, method='pbkdf2:sha256'),
+                is_lecturer=True, lecturer_code=code
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user, remember=True)
+            flash(f'Lecturer account created! Your code is: {code}', category='success')
+            return redirect(url_for('views.lecturer_dashboard'))
+            
     return render_template("sign_uplec.html", user=current_user)
-    
-    
+
 @auth.route('/logout')
 @login_required
 def logout():

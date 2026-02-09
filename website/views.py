@@ -19,7 +19,7 @@ def upload():
     if request.method == 'POST':
         teacher_code = request.form.get('teacher_id')
         manual_name = request.form.get('student_name')
-        manual_date = request.form.get('issue_date')
+        manual_date = request.form.get('issue_date') 
         subject = request.form.get('subject')
         
         target_lec = User.query.filter_by(lecturer_code=teacher_code, is_lecturer=True).first()
@@ -28,7 +28,8 @@ def upload():
             return redirect(url_for('views.upload'))
 
         file = request.files.get('file')
-        if not file: return redirect(url_for('views.upload'))
+        if not file: 
+            return redirect(url_for('views.upload'))
 
         filename = secure_filename(file.filename)
         upload_path = os.path.join(current_app.root_path, 'static', 'uploads', filename)
@@ -44,23 +45,16 @@ def upload():
             full_text = " ".join(results).lower()
 
             year = manual_date.split('-')[0]
-            
-            
             mismatches = []
-            
             
             if manual_name.lower() not in full_text:
                 mismatches.append("Name")
             
-            
             if year not in full_text:
                 mismatches.append("Year")
                 
-            
             if mismatches:
-                
                 ocr_feedback = f"SYSTEM_FLAG: {' and '.join(mismatches)} mismatch."
-            
             
         except Exception as e:
             ocr_feedback = "SYSTEM_FLAG: OCR failed to process."
@@ -80,7 +74,6 @@ def upload():
         return redirect(url_for('views.student_dashboard'))
             
     return render_template("upload.html", user=current_user)
-
 
 @views.route('/update-status/<int:record_id>', methods=['POST'])
 @login_required
@@ -102,4 +95,4 @@ def lecturer_dashboard():
 @login_required
 def student_dashboard():
     records = MedicalRecord.query.filter_by(user_id=current_user.id).all()
-    return render_template("student_dashboard.html", user=current_user, records=records) 
+    return render_template("student_dashboard.html", user=current_user, records=records)
