@@ -52,7 +52,6 @@ def signup():
         name = request.form.get('name')
         password = request.form.get('password')
 
-    
         if len(email) < 4 or '@' not in email:
             flash('Please enter a valid email address.', category='error')
         elif len(password) < 7:
@@ -90,6 +89,12 @@ def signup_lec():
             flash('Please enter a valid email address.', category='error')
         elif len(password) < 7:
             flash('Password must be at least 7 characters.', category='error')
+        elif not any(char.isupper() for char in password):
+            flash('Password must contain at least one uppercase letter.', category='error')
+        elif not any(char.islower() for char in password):
+            flash('Password must contain at least one lowercase letter.', category='error')
+        elif not any(char.isdigit() for char in password):
+            flash('Password must contain at least one number.', category='error')
         elif User.query.filter_by(email=email).first():
             flash('Email already exists.', category='error')
         else:
